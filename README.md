@@ -15,6 +15,11 @@ POC app using [pokemon api](https://pokeapi.co/docs/v2) to practice android/kotl
 This project is simple consumer of the [pokemon api](https://pokeapi.co/docs/v2), from where it will
 obtain data.
 
+![Master list screen](https://github.com/FranGarc/Pokedex/blob/main/screenshots/lsit_first_version.png)
+![Detail screen](https://github.com/FranGarc/Pokedex/blob/main/screenshots/detail_first_version.png)
+
+
+
 ## Patterns
 
 * MVVM
