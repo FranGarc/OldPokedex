@@ -7,16 +7,16 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
-import com.garciafrancisco.pokedex.databinding.ActivityItemDetailBinding
+import com.garciafrancisco.pokedex.databinding.ActivityPokedexBinding
 
-class ItemDetailHostActivity : AppCompatActivity() {
+class PokedexHostActivity : AppCompatActivity() {
 
     private lateinit var appBarConfiguration: AppBarConfiguration
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val binding = ActivityItemDetailBinding.inflate(layoutInflater)
+        val binding = ActivityPokedexBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         val navHostFragment =

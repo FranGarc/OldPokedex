@@ -7,4 +7,40 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="offwhite">#EBF3F6</color>
+
+    <color name="pokeball_red">#FFC22E28</color>
+    <color name="pokeball_red_dark">#BF0700</color>
+
+
+    <color name="LightBlue_700">#7991FA</color>
+    <color name="LightBlue_200">#FFBAC7FF</color>
+    <color name="lightGrey_200">#FFAAAAAA</color>
+    <color name="lightGrey_700">#979696</color>
+
+    <color name="HPColor">#FFF5FF00</color>
+    <color name="AtkColor">#A60000FF</color>
+    <color name="DefColor">#730000FF</color>
+    <color name="SpAtkColor">#93B400FF</color>
+    <color name="SpDefColor">#B30000FF</color>
+    <color name="SpdColor">#8E00FF10</color>
+
+    <color name="TypeNormal">#FFA8A77A</color>
+    <color name="TypeFire">#FFEE8130</color>
+    <color name="TypeWater">#FF6390F0</color>
+    <color name="TypeElectric">#FFF7D02C</color>
+    <color name="TypeGrass">#FF7AC74C</color>
+    <color name="TypeIce">#FF96D9D6</color>
+    <color name="TypeFighting">#FFC22E28</color>
+    <color name="TypePoison">#FFA33EA1</color>
+    <color name="TypeGround">#FFE2BF65</color>
+    <color name="TypeFlying">#FFA98FF3</color>
+    <color name="TypePsychic">#FFF95587</color>
+    <color name="TypeBug">#FFA6B91A</color>
+    <color name="TypeRock">#FFB6A136</color>
+    <color name="TypeGhost">#FF735797</color>
+    <color name="TypeDragon">#FF6F35FC</color>
+    <color name="TypeDark">#FF705746</color>
+    <color name="TypeSteel">#FFB7B7CE</color>
+    <color name="TypeFairy">#FFD685AD</color>
 </resources>

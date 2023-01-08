@@ -1,4 +1,27 @@
 <resources>
     <string name="app_name">Pokedex</string>
     <string name="title_item_detail">Item Detail</string>
+    <string name="pokemon_weight">Weight: %d</string>
+    <string name="pokemon_height">Height: %d</string>
+
+
+    <string name="typeBug">Bug</string>
+    <string name="typeDark">Dark</string>
+    <string name="typeDragon">Dragon</string>
+    <string name="typeElectrict">Electric</string>
+    <string name="typeFigthing">Fighting</string>
+    <string name="typeFairy">Fairy</string>
+    <string name="typeFire">Fire</string>
+    <string name="typeFlying">Flying</string>
+    <string name="typeGhost">Ghost</string>
+    <string name="typeGrass">Grass</string>
+    <string name="typeGround">Ground</string>
+    <string name="typeIce">Ice</string>
+    <string name="typeNormal">Normal</string>
+    <string name="typePoison">Poison</string>
+    <string name="typePsychic">Psychic</string>
+    <string name="typeRock">Rock</string>
+    <string name="typeSteel">Steel</string>
+    <string name="typeWater">Water</string>
+
 </resources>

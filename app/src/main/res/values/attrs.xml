@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="PokemonType">
+        <attr name="android:textColor" format="reference" />
+        <attr name="typeBackgroundColor" format="reference" />
+        <attr name="image" format="reference" />
+        <attr name="text" format="reference" />
+    </declare-styleable>
+</resources>
