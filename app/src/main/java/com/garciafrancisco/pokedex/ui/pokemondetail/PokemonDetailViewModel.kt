@@ -5,13 +5,9 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.garciafrancisco.pokedex.data.models.PokedexListEntry
-import com.garciafrancisco.pokedex.data.models.toPokemonData
 import com.garciafrancisco.pokedex.data.remote.responses.Pokemon
 import com.garciafrancisco.pokedex.repository.PokedexRepository
-import com.garciafrancisco.pokedex.util.Constants
 import com.garciafrancisco.pokedex.util.Resource
-import com.garciafrancisco.pokedex.util.extensions.pokeCapitalize
 import kotlinx.coroutines.launch
 
 private const val TAG = "PokemonDetailViewModel"
@@ -36,7 +32,7 @@ class PokemonDetailViewModel(private val repository: PokedexRepository = Pokedex
             when (result) {
                 is Resource.Success -> {
                     Log.d(TAG, "loadPokemonData() Success")
-                    val pokemon = result.data!!//?.toPokemonData()
+                    val pokemon = result.data!!
                     _pokemonData.postValue(pokemon)
                     _loadError.postValue("")
                     _isLoading.postValue(false)

@@ -23,5 +23,7 @@
     <string name="typeRock">Rock</string>
     <string name="typeSteel">Steel</string>
     <string name="typeWater">Water</string>
+    <string name="catch_button_content_description">catch button</string>
+    <string name="detail_type_label">Type(s)</string>
 
 </resources>

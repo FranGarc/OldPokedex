@@ -43,12 +43,4 @@ class PokedexRepository(
         return Resource.Success(response)
     }
 
-    suspend fun getPokemonInfoByName(pokemonName: String): Resource<Pokemon> {
-        val response = try {
-            api.getPokemonInfo(pokemonName)
-        } catch (e: Exception) {
-            return Resource.Error("${e.message}")
-        }
-        return Resource.Success(response)
-    }
 }

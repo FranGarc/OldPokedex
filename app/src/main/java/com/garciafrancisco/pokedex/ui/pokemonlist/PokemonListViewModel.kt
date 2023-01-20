@@ -6,11 +6,10 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.garciafrancisco.pokedex.data.models.PokedexListEntry
+import com.garciafrancisco.pokedex.data.models.toPokedexListOfEntries
 import com.garciafrancisco.pokedex.repository.PokedexRepository
 import com.garciafrancisco.pokedex.util.Constants.PAGE_SIZE
 import com.garciafrancisco.pokedex.util.Resource
-import com.garciafrancisco.pokedex.util.extensions.pokeCapitalize
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 private const val TAG = "PokemonListViewModel"
@@ -19,21 +18,17 @@ class PokemonListViewModel(private val repository: PokedexRepository = PokedexRe
     ViewModel() {
 
 
-    private var curPage = 0
-
     private val _pokemonList: MutableLiveData<List<PokedexListEntry>> = MutableLiveData()
     val pokemonList: LiveData<List<PokedexListEntry>> = _pokemonList
+    private var currentPage = 0
+
     private val _loadError: MutableLiveData<String> = MutableLiveData()
     val loadError: LiveData<String> = _loadError
     private val _isLoading: MutableLiveData<Boolean> = MutableLiveData()
     val isLoading: LiveData<Boolean> = _isLoading
-    private val _endReached: MutableLiveData<Boolean> = MutableLiveData()
-    val endReached: LiveData<Boolean> = _endReached
-
     private var cachedPokemonList = listOf<PokedexListEntry>()
-    private var isSearchStarting = true
-    private var _isSearching: MutableLiveData<Boolean> = MutableLiveData()
-    var isSearching: LiveData<Boolean> = _isSearching
+
+    private var totalResults: Int = -1
 
     init {
         Log.d(TAG, "init()")
@@ -41,67 +36,40 @@ class PokemonListViewModel(private val repository: PokedexRepository = PokedexRe
         loadPokemonPaginated()
     }
 
-    fun searchPokemonList(query: String) {
-        val listToSearch = if (isSearchStarting) {
-            pokemonList.value
-        } else {
-            cachedPokemonList
-        }
-        viewModelScope.launch(Dispatchers.Default) {
-            if (query.isEmpty()) {
-                _pokemonList.postValue(cachedPokemonList)
-                _isSearching.postValue(false)
-                isSearchStarting = true
-                return@launch
-            }
-            val results = listToSearch?.filter {
-                it.pokemonName.contains(query.trim(), ignoreCase = true) ||
-                        it.pokeApiId.toString() == query.trim()
-            }
-            if (isSearchStarting) {
-                pokemonList.value?.let { list ->
-                    cachedPokemonList = list
-                }
 
-                isSearchStarting = false
-            }
-            results?.let { list ->
-                _pokemonList.postValue(list)
-            }
-
-            _isSearching.postValue(true)
-        }
-    }
-
+    fun totalResults() = totalResults
+    fun currentPokemonPage() = currentPage
     fun loadPokemonPaginated() {
-        Log.d(TAG, "loadPokemonPaginated()")
+
 
         viewModelScope.launch {
             _isLoading.postValue(true)
-            val result = repository.getPokemonList(PAGE_SIZE, curPage * PAGE_SIZE)
+            val offset = currentPage * PAGE_SIZE
+            Log.i(TAG, "loadPokemonPaginated(curPage: $currentPage, offset: $offset)")
+            val result = repository.getPokemonList(PAGE_SIZE, offset)
+
             when (result) {
                 is Resource.Success -> {
                     Log.d(TAG, "loadPokemonPaginated() Success")
+                    result.data?.let { response ->
+                        totalResults = response.count
+                        val pokedexEntries = response.results.toPokedexListOfEntries()
+                        val resultsLoaded = currentPage * PAGE_SIZE
+                        Log.d(TAG, "loadPokemonPaginated   resultsLoaded: $resultsLoaded >= totalResults: $totalResults")
+                        currentPage++
+                        _loadError.postValue("")
+                        _isLoading.postValue(false)
 
-                    _endReached.postValue(curPage * PAGE_SIZE >= result.data!!.count)
-                    val pokedexEntries = result.data.results.mapIndexed { index, entry ->
-                        val pokeapiID = extractIdFromUrl(entry.url)
-                        val imageUrl =
-                            "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${pokeapiID}.png"
-                        PokedexListEntry(entry.name.pokeCapitalize(), imageUrl, pokeapiID.toInt())
-                    }
-                    curPage++
-
-                    _loadError.postValue("")
-                    _isLoading.postValue(false)
-
-                        /* no-op */
-                    val currentList = _pokemonList.value
-                    if (currentList == null) {
-                        _pokemonList.postValue(pokedexEntries)
-                    } else {
-                        val tempList: List<PokedexListEntry> = currentList + pokedexEntries
-                        _pokemonList.postValue(tempList)
+                        val currentList = _pokemonList.value
+                        if (currentList == null) {
+                            Log.d(TAG, "loadPokemonPaginated   first page")
+                            _pokemonList.postValue(pokedexEntries)
+                            Log.d(TAG, "loadPokemonPaginated   emiting: $pokedexEntries")
+                        } else {
+                            val tempList: List<PokedexListEntry> = currentList + pokedexEntries
+                            Log.d(TAG, "loadPokemonPaginated   emiting: $tempList")
+                            _pokemonList.postValue(tempList)
+                        }
                     }
                 }
                 is Resource.Error -> {
@@ -114,24 +82,4 @@ class PokemonListViewModel(private val repository: PokedexRepository = PokedexRe
             }
         }
     }
-
-    private fun extractIdFromUrl(url: String): String {
-        return if (url.endsWith("/")) {
-            url.dropLast(1).takeLastWhile { it.isDigit() }
-        } else {
-            url.takeLastWhile { it.isDigit() }
-        }
-    }
-
-//    fun calcDominantColor(drawable: Drawable, onFinish: (Color) -> Unit) {
-//        val bmp = (drawable as BitmapDrawable).bitmap.copy(Bitmap.Config.ARGB_8888, true)
-//
-//        Palette.from(bmp).generate { palette ->
-//            palette?.dominantSwatch?.rgb?.let { colorValue ->
-//                onFinish(colorValue)
-//            }
-//        }
-//    }
-
-
 }

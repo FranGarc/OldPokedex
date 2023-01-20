@@ -18,14 +18,15 @@
         android:layout_marginRight="16dp"
         app:layoutManager="LinearLayoutManager"
         tools:context="com.garciafrancisco.pokedex.PokedexHostActivity"
-        tools:listitem="@layout/item_list_content" />
+        tools:listitem="@layout/pokemon_list_entry" />
 
     <androidx.core.widget.ContentLoadingProgressBar
         android:id="@+id/pb_loading"
+        style="?android:attr/progressBarStyleHorizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-
-        app:layout_constraintBottom_toTopOf="parent"
+        android:background="@color/pokeball_red_dark"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

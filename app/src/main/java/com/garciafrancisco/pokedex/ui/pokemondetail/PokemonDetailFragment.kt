@@ -9,7 +9,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import com.garciafrancisco.pokedex.R
@@ -19,6 +18,7 @@ import com.garciafrancisco.pokedex.databinding.FragmentPokemonDetailBinding
 import com.garciafrancisco.pokedex.repository.PokedexRepository
 import com.garciafrancisco.pokedex.ui.custom.Type
 import com.garciafrancisco.pokedex.ui.custom.getType
+import com.garciafrancisco.pokedex.ui.pokemonlist.PokemonListFragment
 import com.google.android.material.appbar.CollapsingToolbarLayout
 import com.google.android.material.snackbar.Snackbar
 
@@ -54,7 +54,6 @@ class PokemonDetailFragment : Fragment() {
     private val dragListener = View.OnDragListener { v, event ->
         if (event.action == DragEvent.ACTION_DROP) {
             val clipDataItem: ClipData.Item = event.clipData.getItemAt(0)
-            val dragData = clipDataItem.text
         }
         true
     }
@@ -68,7 +67,6 @@ class PokemonDetailFragment : Fragment() {
                 // Load the placeholder content specified by the fragment
                 // arguments. In a real-world scenario, use a Loader
                 // to load content from a content provider.
-//                item = PlaceholderContent.ITEM_MAP[it.getString(ARG_POKEMON_ID)]
                 selectedPokemonId = it.getString(ARG_POKEMON_ID).toString()
             }
         }
@@ -78,11 +76,7 @@ class PokemonDetailFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         Log.d(TAG, "onViewCreated()")
         val viewModelProviderFactory = PokemonDetailViewModelProviderFactory(PokedexRepository())
-        viewModel =
-            ViewModelProvider(
-                this,
-                viewModelProviderFactory
-            )[PokemonDetailViewModel::class.java]
+        viewModel = ViewModelProvider(this, viewModelProviderFactory)[PokemonDetailViewModel::class.java]
 
         viewModel.loadPokemonData(selectedPokemonId)
         setObservers()
@@ -91,9 +85,10 @@ class PokemonDetailFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
 
         _binding = FragmentPokemonDetailBinding.inflate(inflater, container, false)
+
         val rootView = binding.root
         toolbarLayout = binding.toolbarLayout
         binding.apply {
@@ -101,43 +96,39 @@ class PokemonDetailFragment : Fragment() {
             fab?.setOnClickListener {
                 binding.pokemonInfoContainer?.let { container ->
                     pokemon.let { pokemon ->
-                        Snackbar.make(container, "${pokemon.name} CAPTURED", Snackbar.LENGTH_LONG)
-                            .show()
+                        Snackbar.make(container, "${pokemon.name} CAPTURED", Snackbar.LENGTH_LONG).show()
                     }
 
                 }
             }
         }
-
-        //  updateContent()
         rootView.setOnDragListener(dragListener)
-
         return rootView
     }
 
     private fun setObservers() {
-        viewModel.isLoading.observe(viewLifecycleOwner, Observer { isLoading ->
+        viewModel.isLoading.observe(viewLifecycleOwner) { isLoading ->
             Log.d(TAG, "isLoading changed to ($isLoading)")
             toggleLoading(isLoading)
-        })
+        }
 
-        viewModel.pokemonData.observe(viewLifecycleOwner, Observer { pokemonResponse ->
+        viewModel.pokemonData.observe(viewLifecycleOwner) { pokemonResponse ->
             Log.d(TAG, "pokemonData changed to ($pokemonResponse)")
             pokemon = pokemonResponse
             renderPokemonResponse(pokemonResponse)
 
-        })
+        }
 
-        viewModel.loadError.observe(viewLifecycleOwner, Observer { pokemonError ->
+        viewModel.loadError.observe(viewLifecycleOwner) { pokemonError ->
 
             if (pokemonError.isNotEmpty() && pokemonError.isNotBlank()) {
                 Log.e(TAG, "pokemonDetailError received: $pokemonError")
 
-                binding?.pokemonInfoContainer?.let {
+                binding.pokemonInfoContainer?.let {
                     Snackbar.make(it, "Error: $pokemonError", Snackbar.LENGTH_LONG).show()
                 }
             }
-        })
+        }
     }
 
     private fun renderPokemonResponse(pokemonResponse: Pokemon) {
@@ -150,7 +141,7 @@ class PokemonDetailFragment : Fragment() {
         val pokemonType1 = getType(types.first().type.name)
         setType1(pokemonType1)
         if (types.size > 1) {
-            val pokemonType2 = getType(types.get(1).type.name)
+            val pokemonType2 = getType(types[1].type.name)
             setType2(pokemonType2)
         }
         val pokemonData = pokemonResponse.toPokemonData()
@@ -160,11 +151,10 @@ class PokemonDetailFragment : Fragment() {
             R.string.pokemon_height,
             pokemonData.height
         )
-        binding.tvPokemonWeight?.text =
-            resources.getString(
-                R.string.pokemon_weight,
-                pokemonData.weight
-            )
+        binding.tvPokemonWeight?.text = resources.getString(
+            R.string.pokemon_weight,
+            pokemonData.weight
+        )
     }
 
     private fun setType1(pokemonType: Type) {
@@ -182,12 +172,7 @@ class PokemonDetailFragment : Fragment() {
         )
         binding.tvTypeName1?.apply {
             text = resources.getText(pokemonType.stringKey)
-            setTextColor(
-                ContextCompat.getColor(
-                    requireContext(),
-                    R.color.white
-                )
-            )
+            setTextColor(ContextCompat.getColor(requireContext(), R.color.white))
         }
     }
 
@@ -196,27 +181,12 @@ class PokemonDetailFragment : Fragment() {
         binding.typeContainer2?.apply {
 
             visibility = View.VISIBLE
-            setBackgroundColor(
-                ContextCompat.getColor(
-                    requireContext(),
-                    pokemonType.color
-                )
-            )
+            setBackgroundColor(ContextCompat.getColor(requireContext(), pokemonType.color))
         }
-        binding.ivTypeIcon2?.setImageDrawable(
-            ContextCompat.getDrawable(
-                requireContext(),
-                pokemonType.icon
-            )
-        )
+        binding.ivTypeIcon2?.setImageDrawable(ContextCompat.getDrawable(requireContext(), pokemonType.icon))
         binding.tvTypeName2?.apply {
             text = resources.getText(pokemonType.stringKey)
-            setTextColor(
-                ContextCompat.getColor(
-                    requireContext(),
-                    R.color.white
-                )
-            )
+            setTextColor(ContextCompat.getColor(requireContext(), R.color.white))
         }
 
 

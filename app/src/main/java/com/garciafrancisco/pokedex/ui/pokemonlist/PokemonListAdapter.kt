@@ -16,17 +16,11 @@ class PokemonListAdapter : RecyclerView.Adapter<PokemonViewHolder>() {
 
     private val differCallback = object : DiffUtil.ItemCallback<PokedexListEntry>() {
 
-        override fun areItemsTheSame(
-            oldItem: PokedexListEntry,
-            newItem: PokedexListEntry
-        ): Boolean {
+        override fun areItemsTheSame(oldItem: PokedexListEntry, newItem: PokedexListEntry): Boolean {
             return oldItem.pokemonName == newItem.pokemonName
         }
 
-        override fun areContentsTheSame(
-            oldItem: PokedexListEntry,
-            newItem: PokedexListEntry
-        ): Boolean {
+        override fun areContentsTheSame(oldItem: PokedexListEntry, newItem: PokedexListEntry): Boolean {
             return oldItem == newItem
         }
     }
@@ -34,14 +28,7 @@ class PokemonListAdapter : RecyclerView.Adapter<PokemonViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PokemonViewHolder {
         Log.d(TAG, "onCreateViewHolder()")
-
-        return PokemonViewHolder(
-            LayoutInflater.from(parent.context).inflate(
-                R.layout.pokemon_list_entry,
-                parent,
-                false
-            )
-        )
+        return PokemonViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.pokemon_list_entry, parent, false))
     }
 
     override fun onBindViewHolder(holder: PokemonViewHolder, position: Int) {
