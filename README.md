@@ -15,8 +15,8 @@ POC app using [pokemon api](https://pokeapi.co/docs/v2) to practice android/kotl
 This project is simple consumer of the [pokemon api](https://pokeapi.co/docs/v2), from where it will
 obtain data.
 
-![Master list screen](https://github.com/FranGarc/Pokedex/blob/main/screenshots/list_first_version.png)
-![Detail screen](https://github.com/FranGarc/Pokedex/blob/main/screenshots/detail_first_version.png)
+![Master list screen](https://github.com/FranGarc/Pokedex/blob/main/screenshots/list_first_version1.png)
+![Detail screen](https://github.com/FranGarc/Pokedex/blob/main/screenshots/detail_first_version1.png)
 
 
 
@@ -43,4 +43,6 @@ Project is created with:
 
 ## Credits
 
-* Pokemon type icons from https://github.com/duiker101/pokemon-type-svg-icons
+* Launcher icon from https://icon-library.com/icon/pokedex-icon-19.html.html>Pokedex Icon # 255172
+* Pokemon Types icons from https://github.com/duiker101/pokemon-type-svg-icons
+* Pokeball icon from https://www.flaticon.es/icono-gratis/pokebola_824365
