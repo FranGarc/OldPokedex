@@ -43,6 +43,6 @@ Project is created with:
 
 ## Credits
 
-* Launcher icon from [Pokedex Icon # 255172](https://icon-library.com/icon/pokedex-icon-19.html)
-* Pokemon Types icons from [duiker101](https://github.com/duiker101)'s [repository](https://github.com/duiker101/pokemon-type-svg-icons)
+* Launcher icon from [Pokedex Icon # 255172](https://icon-library.com/icon/pokedex-icon-19.html.html)
+* Pokemon Types icons from https://github.com/duiker101/pokemon-type-svg-icons
 * Pokeball icon from https://www.flaticon.es/icono-gratis/pokebola_824365
