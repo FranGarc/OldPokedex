@@ -5,7 +5,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.garciafrancisco.pokedex.repository.PokedexRepository
 
 class PokemonListViewModelProviderFactory(
-    val pokedexRepository: PokedexRepository
+    private val pokedexRepository: PokedexRepository
 ) : ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         return PokemonListViewModel(pokedexRepository) as T

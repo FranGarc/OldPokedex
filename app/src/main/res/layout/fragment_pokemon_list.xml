@@ -17,7 +17,7 @@
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
         app:layoutManager="LinearLayoutManager"
-        tools:context="com.garciafrancisco.pokedex.PokedexHostActivity"
+        tools:context="com.garciafrancisco.pokedex.ui.PokedexHostActivity"
         tools:listitem="@layout/pokemon_list_entry" />
 
     <androidx.core.widget.ContentLoadingProgressBar

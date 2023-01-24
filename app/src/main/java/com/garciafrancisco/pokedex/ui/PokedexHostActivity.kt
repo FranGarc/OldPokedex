@@ -1,4 +1,4 @@
-package com.garciafrancisco.pokedex
+package com.garciafrancisco.pokedex.ui
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
@@ -7,6 +7,7 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
+import com.garciafrancisco.pokedex.R
 import com.garciafrancisco.pokedex.databinding.ActivityPokedexBinding
 
 class PokedexHostActivity : AppCompatActivity() {

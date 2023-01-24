@@ -64,9 +64,6 @@ class PokemonDetailFragment : Fragment() {
 
         arguments?.let {
             if (it.containsKey(ARG_POKEMON_ID)) {
-                // Load the placeholder content specified by the fragment
-                // arguments. In a real-world scenario, use a Loader
-                // to load content from a content provider.
                 selectedPokemonId = it.getString(ARG_POKEMON_ID).toString()
             }
         }

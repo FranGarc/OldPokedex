@@ -28,7 +28,7 @@ class RetrofitInstance {
                 .client(client)
                 .build()
         }
-        val api by lazy {
+        val api: PokedexAPI by lazy {
             retrofit.create(PokedexAPI::class.java)
         }
     }

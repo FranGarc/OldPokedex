@@ -18,14 +18,6 @@ import com.garciafrancisco.pokedex.ui.pokemondetail.PokemonDetailFragment.Compan
 import com.garciafrancisco.pokedex.util.Constants.PAGE_SIZE
 import com.google.android.material.snackbar.Snackbar
 
-/**
- * A Fragment representing a list of Pings. This fragment
- * has different presentations for handset and larger screen devices. On
- * handsets, the fragment presents a list of items, which when touched,
- * lead to a {@link ItemDetailFragment} representing
- * item details. On larger screens, the Navigation controller presents the list of items and
- * item details side-by-side using two vertical panes.
- */
 private const val TAG = "PokemonListFragment"
 
 class PokemonListFragment : Fragment() {

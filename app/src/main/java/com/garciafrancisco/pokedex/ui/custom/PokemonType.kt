@@ -44,39 +44,3 @@ fun getType(key: String): Type {
     return pokemonTypes.firstOrNull { it.key == key }
         ?: throw IllegalArgumentException("Invalid type key")
 }
-
-private const val TAG = "PokemonType CustomView"
-
-class PokemonType(context: Context, attrs: AttributeSet) : ConstraintLayout(context, attrs) {
-
-    init {
-        View.inflate(context, R.layout.type_item, this)
-
-        val imageView: ImageView = findViewById(R.id.iv_type_icon)
-        val textView: TextView = findViewById(R.id.tv_pokemon_type)
-        val container: ConstraintLayout = findViewById(R.id.typeContainer)
-
-        val attributes = context.obtainStyledAttributes(attrs, R.styleable.PokemonType)
-        imageView.setImageDrawable(attributes.getDrawable(R.styleable.PokemonType_image))
-        textView.text = attributes.getString(R.styleable.PokemonType_text)
-        textView.setTextColor(
-            attributes.getColor(
-                R.styleable.PokemonType_android_textColor,
-                R.styleable.PokemonType_android_textColor
-            )
-        )
-        container.setBackgroundColor(
-            attributes.getColor(
-                R.styleable.PokemonType_typeBackgroundColor,
-                R.styleable.PokemonType_typeBackgroundColor
-            )
-        )
-        attributes.recycle()
-
-    }
-
-}
-
-fun setType(typeKey: String) {
-    val type = getType(typeKey)
-}
