@@ -5,14 +5,14 @@ plugins {
 
 android {
     namespace = "com.garciafrancisco.domain"
-    compileSdk = 32
+    compileSdk = Versions.SDK.compileSdk
 
     defaultConfig {
-        minSdk = 28
-        targetSdk = 32
+        minSdk = Versions.SDK.minSdk
+        targetSdk = Versions.SDK.targetSdk
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-        consumerProguardFiles ( "consumer-rules.pro")
+        consumerProguardFiles("consumer-rules.pro")
     }
 
     buildTypes {
@@ -22,20 +22,17 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = Versions.Java.javaVersion
+        targetCompatibility = Versions.Java.javaVersion
     }
     kotlinOptions {
-        jvmTarget = "1.8"
+        jvmTarget = Versions.Java.jvmTarget
     }
 }
 
 dependencies {
 
-    implementation("androidx.core:core-ktx:1.7.0")
-    implementation("androidx.appcompat:appcompat:1.5.1")
-    implementation("com.google.android.material:material:1.7.0")
-    testImplementation("junit:junit:4.13.2")
-    androidTestImplementation("androidx.test.ext:junit:1.1.5")
-    androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
+
+    // Testing
+    testImplementation(Dependencies.Testing.junit)
 }
