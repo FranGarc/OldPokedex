@@ -1,6 +1,5 @@
 package com.garciafrancisco.pokedex.ui.pokemonlist
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -11,6 +10,7 @@ import com.garciafrancisco.pokedex.repository.PokedexRepository
 import com.garciafrancisco.pokedex.util.Constants.PAGE_SIZE
 import com.garciafrancisco.pokedex.util.Resource
 import kotlinx.coroutines.launch
+import timber.log.Timber
 
 private const val TAG = "PokemonListViewModel"
 
@@ -31,7 +31,7 @@ class PokemonListViewModel(private val repository: PokedexRepository = PokedexRe
     private var totalResults: Int = -1
 
     init {
-        Log.d(TAG, "init()")
+        Timber.tag(TAG).d("init()")
 
         loadPokemonPaginated()
     }
@@ -45,29 +45,29 @@ class PokemonListViewModel(private val repository: PokedexRepository = PokedexRe
         viewModelScope.launch {
             _isLoading.postValue(true)
             val offset = currentPage * PAGE_SIZE
-            Log.i(TAG, "loadPokemonPaginated(curPage: $currentPage, offset: $offset)")
+            Timber.tag(TAG).i("loadPokemonPaginated(curPage: $currentPage, offset: $offset)")
             val result = repository.getPokemonList(PAGE_SIZE, offset)
 
             when (result) {
                 is Resource.Success -> {
-                    Log.d(TAG, "loadPokemonPaginated() Success")
+                    Timber.tag(TAG).d("loadPokemonPaginated() Success")
                     result.data?.let { response ->
                         totalResults = response.count
                         val pokedexEntries = response.results.toPokedexListOfEntries()
                         val resultsLoaded = currentPage * PAGE_SIZE
-                        Log.d(TAG, "loadPokemonPaginated   resultsLoaded: $resultsLoaded >= totalResults: $totalResults")
+                        Timber.tag(TAG).d("loadPokemonPaginated   resultsLoaded: $resultsLoaded  >= totalResults: $totalResults")
                         currentPage++
                         _loadError.postValue("")
                         _isLoading.postValue(false)
 
                         val currentList = _pokemonList.value
                         if (currentList == null) {
-                            Log.d(TAG, "loadPokemonPaginated   first page")
+                            Timber.tag(TAG).d("loadPokemonPaginated   first page")
                             _pokemonList.postValue(pokedexEntries)
-                            Log.d(TAG, "loadPokemonPaginated   emiting: $pokedexEntries")
+                            Timber.tag(TAG).d("loadPokemonPaginated   emiting: $pokedexEntries")
                         } else {
                             val tempList: List<PokedexListEntry> = currentList + pokedexEntries
-                            Log.d(TAG, "loadPokemonPaginated   emiting: $tempList")
+                            Timber.tag(TAG).d("loadPokemonPaginated   emiting: $tempList")
                             _pokemonList.postValue(tempList)
                         }
                     }

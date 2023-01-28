@@ -1,6 +1,5 @@
 package com.garciafrancisco.pokedex.ui.pokemondetail
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -9,6 +8,7 @@ import com.garciafrancisco.pokedex.data.remote.responses.Pokemon
 import com.garciafrancisco.pokedex.repository.PokedexRepository
 import com.garciafrancisco.pokedex.util.Resource
 import kotlinx.coroutines.launch
+import timber.log.Timber
 
 private const val TAG = "PokemonDetailViewModel"
 
@@ -23,7 +23,7 @@ class PokemonDetailViewModel(private val repository: PokedexRepository = Pokedex
     val isLoading: LiveData<Boolean> = _isLoading
 
     fun loadPokemonData(pokemonId: String) {
-        Log.d(TAG, "pokemonId( $pokemonId )")
+        Timber.tag(TAG).d("pokemonId($pokemonId)")
 
         viewModelScope.launch {
             _isLoading.postValue(true)
@@ -31,7 +31,7 @@ class PokemonDetailViewModel(private val repository: PokedexRepository = Pokedex
                 repository.getPokemonInfoById(pokemonId)
             when (result) {
                 is Resource.Success -> {
-                    Log.d(TAG, "loadPokemonData() Success")
+                    Timber.tag(TAG).d("loadPokemonData() Success")
                     val pokemon = result.data!!
                     _pokemonData.postValue(pokemon)
                     _loadError.postValue("")

@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.garciafrancisco.pokedex.R
 import com.garciafrancisco.pokedex.data.models.PokedexListEntry
+import timber.log.Timber
 
 private const val TAG: String = "PokemonListAdapter"
 
@@ -27,12 +28,12 @@ class PokemonListAdapter : RecyclerView.Adapter<PokemonViewHolder>() {
     val differ = AsyncListDiffer(this, differCallback)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PokemonViewHolder {
-        Log.d(TAG, "onCreateViewHolder()")
+        Timber.tag(TAG).d("onCreateViewHolder()")
         return PokemonViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.pokemon_list_entry, parent, false))
     }
 
     override fun onBindViewHolder(holder: PokemonViewHolder, position: Int) {
-        Log.d(TAG, "onBindViewHolder()")
+        Timber.tag(TAG).d("onBindViewHolder()")
 
         val pokedexEntry = differ.currentList[position]
 
@@ -52,7 +53,7 @@ class PokemonListAdapter : RecyclerView.Adapter<PokemonViewHolder>() {
     }
 
     override fun getItemCount(): Int {
-        Log.d(TAG, "getItemCount(): ${differ.currentList.size}")
+        Timber.tag(TAG).d("getItemCount(): ${differ.currentList.size}")
         return differ.currentList.size
     }
 }

@@ -2,7 +2,6 @@ package com.garciafrancisco.pokedex.ui.pokemondetail
 
 import android.content.ClipData
 import android.os.Bundle
-import android.util.Log
 import android.view.DragEvent
 import android.view.LayoutInflater
 import android.view.View
@@ -21,6 +20,7 @@ import com.garciafrancisco.pokedex.ui.custom.getType
 import com.garciafrancisco.pokedex.ui.pokemonlist.PokemonListFragment
 import com.google.android.material.appbar.CollapsingToolbarLayout
 import com.google.android.material.snackbar.Snackbar
+import timber.log.Timber
 
 /**
  * A fragment representing a single Item detail screen.
@@ -60,7 +60,7 @@ class PokemonDetailFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        Log.d(TAG, "onCreate()")
+        Timber.tag(TAG).d("onCreate()")
 
         arguments?.let {
             if (it.containsKey(ARG_POKEMON_ID)) {
@@ -71,7 +71,7 @@ class PokemonDetailFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        Log.d(TAG, "onViewCreated()")
+        Timber.tag(TAG).d("onViewCreated()")
         val viewModelProviderFactory = PokemonDetailViewModelProviderFactory(PokedexRepository())
         viewModel = ViewModelProvider(this, viewModelProviderFactory)[PokemonDetailViewModel::class.java]
 
@@ -105,12 +105,12 @@ class PokemonDetailFragment : Fragment() {
 
     private fun setObservers() {
         viewModel.isLoading.observe(viewLifecycleOwner) { isLoading ->
-            Log.d(TAG, "isLoading changed to ($isLoading)")
+            Timber.tag(TAG).d("isLoading changed to ($isLoading)")
             toggleLoading(isLoading)
         }
 
         viewModel.pokemonData.observe(viewLifecycleOwner) { pokemonResponse ->
-            Log.d(TAG, "pokemonData changed to ($pokemonResponse)")
+            Timber.tag(TAG).d("pokemonData changed to ($pokemonResponse)")
             pokemon = pokemonResponse
             renderPokemonResponse(pokemonResponse)
 
@@ -119,7 +119,7 @@ class PokemonDetailFragment : Fragment() {
         viewModel.loadError.observe(viewLifecycleOwner) { pokemonError ->
 
             if (pokemonError.isNotEmpty() && pokemonError.isNotBlank()) {
-                Log.e(TAG, "pokemonDetailError received: $pokemonError")
+                Timber.tag(TAG).e("pokemonDetailError received: $pokemonError")
 
                 binding.pokemonInfoContainer?.let {
                     Snackbar.make(it, "Error: $pokemonError", Snackbar.LENGTH_LONG).show()
@@ -129,7 +129,7 @@ class PokemonDetailFragment : Fragment() {
     }
 
     private fun renderPokemonResponse(pokemonResponse: Pokemon) {
-        Log.d(TAG, "renderPokemonResponse()")
+        Timber.tag(TAG).d("renderPokemonResponse()")
 
         binding.ivPokemonImage?.let {
             Glide.with(this).load(pokemonResponse.sprites.front_default).into(it)

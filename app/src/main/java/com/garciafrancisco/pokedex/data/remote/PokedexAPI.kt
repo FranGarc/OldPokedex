@@ -10,8 +10,8 @@ interface PokedexAPI {
 
     @GET("pokemon")
     suspend fun getPokemonList(
-        @Query("limit") limit: Int,
-        @Query("offset") offset: Int
+        @Query("limit") amountOfEntries: Int,
+        @Query("offset") startFromPokemonId: Int
     ): PokemonList
 
     @GET("pokemon/{name}")

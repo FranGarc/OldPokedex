@@ -17,6 +17,7 @@ import com.garciafrancisco.pokedex.repository.PokedexRepository
 import com.garciafrancisco.pokedex.ui.pokemondetail.PokemonDetailFragment.Companion.ARG_POKEMON_ID
 import com.garciafrancisco.pokedex.util.Constants.PAGE_SIZE
 import com.google.android.material.snackbar.Snackbar
+import timber.log.Timber
 
 private const val TAG = "PokemonListFragment"
 
@@ -33,14 +34,14 @@ class PokemonListFragment : Fragment() {
     private val binding get() = _binding!!
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        Log.d(TAG, "onCreateView()")
+        Timber.tag(TAG).d("onCreateView()")
         _binding = FragmentPokemonListBinding.inflate(inflater, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        Log.d(TAG, "onViewCreated()")
+        Timber.tag(TAG).d("onViewCreated()")
 
         val viewModelProviderFactory = PokemonListViewModelProviderFactory(PokedexRepository())
         viewModel = ViewModelProvider(this, viewModelProviderFactory)[PokemonListViewModel::class.java]
@@ -48,7 +49,7 @@ class PokemonListFragment : Fragment() {
         setupRecyclerView()
 
         pokemonListAdapter.setOnItemClickListener { pokeApiId ->
-            Log.d(TAG, "OnItemClickListener(): $pokeApiId")
+            Timber.tag(TAG).d("OnItemClickListener(): " + pokeApiId)
             val bundle = Bundle().apply {
                 putSerializable(ARG_POKEMON_ID, pokeApiId.toString())
             }
@@ -59,9 +60,9 @@ class PokemonListFragment : Fragment() {
     }
 
     private fun setupObservers() {
-        Log.d(TAG, "setupObservers()")
+        Timber.tag(TAG).d("setupObservers()")
         viewModel.pokemonList.observe(viewLifecycleOwner) { pokemonList ->
-            Log.d(TAG, "pokemonList received: $pokemonList")
+            Timber.tag(TAG).d("pokemonList received: " + pokemonList)
             pokemonListAdapter.differ.submitList(pokemonList)
             // we add +2 because:
             // integer divisions are always rounded off
@@ -71,7 +72,7 @@ class PokemonListFragment : Fragment() {
         }
 
         viewModel.loadError.observe(viewLifecycleOwner) { pokemonListError ->
-            Log.d(TAG, "pokemonListError received: $pokemonListError")
+            Timber.tag(TAG).d("pokemonListError received: " + pokemonListError)
             if (pokemonListError.isNotEmpty() && pokemonListError.isNotBlank())
                 binding.itemListContainer.let {
                     Snackbar.make(it, "Error: $pokemonListError", Snackbar.LENGTH_LONG).show()
@@ -88,13 +89,13 @@ class PokemonListFragment : Fragment() {
     }
 
     private fun showLoading() {
-        Log.d(TAG, "showLoading()")
+        Timber.tag(TAG).d("showLoading()")
         binding.pbLoading?.visibility = View.VISIBLE
         isLoading = true
     }
 
     private fun hideLoading() {
-        Log.d(TAG, "hideLoading()")
+        Timber.tag(TAG).d("hideLoading()")
         binding.pbLoading?.visibility = View.GONE
         isLoading = false
     }
@@ -113,7 +114,7 @@ class PokemonListFragment : Fragment() {
 
         override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
             super.onScrolled(recyclerView, dx, dy)
-            Log.d(TAG, "onScrolled()")
+            Timber.tag(TAG).d("onScrolled()")
 
             val layoutManager = recyclerView.layoutManager as LinearLayoutManager
             val firstVisibleItemPosition = layoutManager.findFirstVisibleItemPosition()
@@ -127,7 +128,7 @@ class PokemonListFragment : Fragment() {
 
             val shouldPaginate =
                 isNotLoadinbAndNotLastPage && isAtLastItem && isNotAtBeginning && isTotalMoreThanVisible && isScrolling
-            Log.d(TAG, "shouldPaginate = $shouldPaginate")
+            Timber.tag(TAG).d("shouldPaginate = $shouldPaginate")
 
             if (shouldPaginate) {
                 viewModel.loadPokemonPaginated()
@@ -137,7 +138,7 @@ class PokemonListFragment : Fragment() {
     }
 
     private fun setupRecyclerView() {
-        Log.d(TAG, "setupRecyclerView()")
+        Timber.tag(TAG).d("setupRecyclerView()")
 
         pokemonListAdapter = PokemonListAdapter()
         binding.rvPokemonList?.apply {
@@ -149,7 +150,7 @@ class PokemonListFragment : Fragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
-        Log.d(TAG, "onDestroyView()")
+        Timber.tag(TAG).d("onDestroyView()")
         _binding = null
     }
 }

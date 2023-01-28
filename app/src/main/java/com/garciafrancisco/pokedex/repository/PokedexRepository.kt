@@ -6,6 +6,7 @@ import com.garciafrancisco.pokedex.data.remote.RetrofitInstance
 import com.garciafrancisco.pokedex.data.remote.responses.Pokemon
 import com.garciafrancisco.pokedex.data.remote.responses.PokemonList
 import com.garciafrancisco.pokedex.util.Resource
+import timber.log.Timber
 
 const val TAG = "PokedexRepository"
 
@@ -14,30 +15,30 @@ class PokedexRepository(
 ) {
 
     suspend fun getPokemonList(limit: Int, offset: Int): Resource<PokemonList> {
-        Log.d(TAG, "getPokemonList( limit: $limit,  offset: $offset ) ")
+        Timber.tag(TAG).d("getPokemonList( limit: $limit,  offset: $offset ")
 
         lateinit var response: PokemonList
         try {
             response = api.getPokemonList(limit, offset)
-            Log.d(TAG, "getPokemonList response: $response ")
+            Timber.tag(TAG).d("getPokemonList response:$response ")
 
         } catch (e: Exception) {
-            Log.d(TAG, "getPokemonList Error: ${e.message} ")
+            Timber.tag(TAG).d("getPokemonList Error: " + e.message + " ")
             return Resource.Error("${e.message}")
         }
         return Resource.Success(response)
     }
 
     suspend fun getPokemonInfoById(pokemonId: String): Resource<Pokemon> {
-        Log.d(TAG, "getPokemonInfoById( $pokemonId ) ")
+        Timber.tag(TAG).d("getPokemonInfoById( " + pokemonId + " ) ")
 
         lateinit var response: Pokemon
         try {
             response = api.getPokemonInfo(pokemonId)
-            Log.d(TAG, "getPokemonInfoById response: $response ")
+            Timber.tag(TAG).d("getPokemonInfoById response: " + response + " ")
 
         } catch (e: Exception) {
-            Log.d(TAG, "getPokemonInfoById Error: ${e.message} ")
+            Timber.tag(TAG).d("getPokemonInfoById Error: " + e.message + " ")
             return Resource.Error("${e.message}")
         }
         return Resource.Success(response)
