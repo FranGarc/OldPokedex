@@ -33,6 +33,7 @@ android {
 dependencies {
 
 
+    implementation(project(mapOf("path" to ":data")))
     // Testing
     testImplementation(Dependencies.Testing.junit)
 }

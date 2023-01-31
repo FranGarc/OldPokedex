@@ -4,17 +4,18 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.garciafrancisco.domain.usecase.GetPokedexEntries
 import com.garciafrancisco.pokedex.data.models.PokedexListEntry
 import com.garciafrancisco.pokedex.data.models.toPokedexListOfEntries
 import com.garciafrancisco.pokedex.repository.PokedexRepository
-import com.garciafrancisco.pokedex.util.Constants.PAGE_SIZE
+import com.garciafrancisco.pokedex.util.PAGE_SIZE
 import com.garciafrancisco.pokedex.util.Resource
 import kotlinx.coroutines.launch
 import timber.log.Timber
 
 private const val TAG = "PokemonListViewModel"
 
-class PokemonListViewModel(private val repository: PokedexRepository = PokedexRepository()) :
+class PokemonListViewModel(private val getPokedexEntries: GetPokedexEntries) :
     ViewModel() {
 
 
@@ -46,7 +47,8 @@ class PokemonListViewModel(private val repository: PokedexRepository = PokedexRe
             _isLoading.postValue(true)
             val offset = currentPage * PAGE_SIZE
             Timber.tag(TAG).i("loadPokemonPaginated(curPage: $currentPage, offset: $offset)")
-            val result = repository.getPokemonList(PAGE_SIZE, offset)
+            val result = getPokedexEntries.invoke(PAGE_SIZE, offset)
+
 
             when (result) {
                 is Resource.Success -> {

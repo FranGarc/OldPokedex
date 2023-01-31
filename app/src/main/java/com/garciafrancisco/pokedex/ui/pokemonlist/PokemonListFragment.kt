@@ -1,7 +1,6 @@
 package com.garciafrancisco.pokedex.ui.pokemonlist
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,7 +14,7 @@ import com.garciafrancisco.pokedex.R
 import com.garciafrancisco.pokedex.databinding.FragmentPokemonListBinding
 import com.garciafrancisco.pokedex.repository.PokedexRepository
 import com.garciafrancisco.pokedex.ui.pokemondetail.PokemonDetailFragment.Companion.ARG_POKEMON_ID
-import com.garciafrancisco.pokedex.util.Constants.PAGE_SIZE
+import com.garciafrancisco.data.source.remote.Constants.PAGE_SIZE
 import com.google.android.material.snackbar.Snackbar
 import timber.log.Timber
 

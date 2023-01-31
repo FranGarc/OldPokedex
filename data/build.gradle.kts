@@ -31,7 +31,13 @@ android {
 }
 
 dependencies {
-
+    //Logging
+    implementation(Dependencies.Timber.timber)
+    // Retrofit
+    implementation(Dependencies.HttpClient.retrofit)
+    implementation(Dependencies.HttpClient.moshiConverter)
+    implementation(Dependencies.HttpClient.moshiKotlin)
+    implementation(Dependencies.HttpClient.loggingInterceptor)
     // Testing
     testImplementation(Dependencies.Testing.junit)
 }

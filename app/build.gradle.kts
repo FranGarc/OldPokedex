@@ -70,11 +70,6 @@ dependencies {
     implementation(Dependencies.Coroutines.core)
     implementation(Dependencies.Coroutines.android)
 
-    // Retrofit
-    implementation(Dependencies.HttpClient.retrofit)
-    implementation(Dependencies.HttpClient.moshiConverter)
-    implementation(Dependencies.HttpClient.moshiKotlin)
-    implementation(Dependencies.HttpClient.loggingInterceptor)
 
     //Logging
     implementation(Dependencies.Timber.timber)
